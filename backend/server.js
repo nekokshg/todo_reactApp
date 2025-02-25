@@ -18,19 +18,12 @@ app.use(cors());
  * mongoose.connect(process.env.MONGO_URI, {...}) => Attempts to connect to a MongoDB database.
  * The connection URI is read from an environment variable (process.env.MONGO_URI), which keeps
  * sensitive infor (like your database credentials) out of the code
- * 
- * options:
- * -userNewURLParser: true => Uses the new MongoDB connection string parser for better reliability.
- * -useUnifiedTopology: true => Uses the new topology engine to improve connection management (handles server discover, monitoring, and failover more efficiently).
- * 
+
  * mongoose.connect is asynchronous because it returns a promise. This promise lets you knwo when the connection succeeds or fails.
  * .then method attaches a callback that will be executed when the promise resolves successfully
  * .catch method attaches a callback that will be executed if the promise is rejected 
  */
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParse: true,
-    useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('MongoDB connection error:', err));
 
@@ -93,7 +86,7 @@ app.post('/api/todos', async (req, res) => {
 });
 
 //PUT replace a todo with a edited todo
-app.post('/api/todos/:id', async (req, res) => {
+app.put('/api/todos/:id', async (req, res) => {
     try {
         //Get the id from the params
         const { id } = req.params
@@ -116,7 +109,7 @@ app.post('/api/todos/:id', async (req, res) => {
 });
 
 //DELETE a todo by ID
-app.delete('/api/todo/:id', async (req, res) => {
+app.delete('/api/todos/:id', async (req, res) => {
     try {
         //Get the id from the params
         const { id } = req.params;
